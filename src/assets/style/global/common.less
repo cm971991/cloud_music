@@ -1,0 +1,119 @@
+@import "variable";
+
+html, body {
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+  font-weight: @font-weight !important;
+  -webkit-user-select: none; /* 禁止选中文本（如无文本选中需求，此为必选项） */
+  user-select: none;
+  background: @color-background;
+  margin: 0;
+  padding: 0;
+  color: @color-text-f;
+}
+
+button, h1, h2, h3, h4, h5, h6, input {
+  font-weight: @font-weight !important;
+}
+
+a, img {
+  -webkit-touch-callout: none; /* 禁止长按链接与图片弹出菜单 */
+}
+
+a {
+  text-decoration: none;
+  &:hover, &:active, &:focus {
+    text-decoration: none;
+  }
+}
+
+img {
+  vertical-align: middle;
+  border: 0;
+  width: 100%;
+  height: auto;
+}
+
+/**
+* vue-router transition
+*/
+
+.vux-pop-out-enter-active,
+.vux-pop-out-leave-active,
+.vux-pop-in-enter-active,
+.vux-pop-in-leave-active {
+  will-change: transform;
+  transition: all 500ms;
+  //height: 100%;
+  background: @color-background;
+  position: absolute;
+  backface-visibility: hidden;
+  //perspective: 1000;
+}
+
+.vux-pop-out-enter,
+.vux-pop-out-leave,
+.vux-pop-in-enter,
+.vux-pop-in-leave {
+  position: relative;
+}
+
+.vux-pop-out-enter {
+  opacity: 0;
+  transform: translate3d(-100%, 0, 0);
+}
+
+.vux-pop-out-leave-active {
+  opacity: 0;
+  transform: translate3d(100%, 0, 0);
+}
+
+.vux-pop-in-enter {
+  opacity: 0;
+  transform: translate3d(100%, 0, 0);
+}
+
+.vux-pop-in-leave-active {
+  opacity: 0;
+  transform: translate3d(-100%, 0, 0);
+}
+
+/**
+* clearfix hack
+*/
+
+.clearfix {
+  &.span {
+    height: @spacing-height;
+    background-color: @color-background
+  }
+  &:before,
+  &:after {
+    content: " ";
+    display: table;
+  }
+  &:after {
+    clear: both;
+  }
+}
+
+.router-view {
+  width: 100%;
+  ::-webkit-input-placeholder { /* WebKit browsers */
+    font-size: @font-size-medium;
+    color: @color-text;
+  }
+  :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    font-size: @font-size-medium;
+    color: @color-text;
+  }
+  ::-moz-placeholder { /* Mozilla Firefox 19+ */
+    font-size: @font-size-medium;
+    color: @color-text;
+  }
+  :-ms-input-placeholder { /* Internet Explorer 10+ */
+    font-size: @font-size-medium;
+    color: @color-text;
+  }
+}
