@@ -2,6 +2,7 @@
   <div class="container">
     <span>TEST1</span>
     <button @click="redirect" style="width:100px;height:50px;">下一页</button>
+    <router-view></router-view>
   </div>
 </template>
 
