@@ -1,10 +1,12 @@
 /**
- * Created by chang on 2017/5/16.
+ * Created by hale on 2017年11月16日15:41:11
  */
 import localStorage from './localStorage'
 import Common from './common'
 import Date from './date'
 import PinYin from './pinyin'
+import Dom from './dom'
+import xHttp from './xHttp'
 
 export default function (Vue) {
   if (!Vue.$utils) {
@@ -12,14 +14,16 @@ export default function (Vue) {
       localStorage,
       Common,
       Date,
-      PinYin
+      PinYin,
+      Dom
     }
   } else {
     Vue.$utils = {
       localStorage,
       Common,
       Date,
-      PinYin
+      PinYin,
+      Dom
     }
   }
   Vue.mixin({
@@ -28,8 +32,18 @@ export default function (Vue) {
         localStorage,
         Common,
         Date,
-        PinYin
+        PinYin,
+        Dom
       }
     }
   })
+  
+  if (!Vue.$api) {
+    Vue.prototype.$api = {xHttp}
+    Vue.$api = {xHttp}
+  } else {
+    $api:{
+      xHttp
+    }
+  }
 }

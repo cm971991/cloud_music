@@ -1,3 +1,5 @@
-const movie = state => state.movie
+const uid = (state) => {
+  return state.uid
+}
 
-export default movie
+export default uid

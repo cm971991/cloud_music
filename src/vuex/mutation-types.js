@@ -9,3 +9,15 @@ export const UPDATE_DIRECTION = 'UPDATE_DIRECTION'
  * @type {string}
  */
 export const SET_ROUTE = 'SET_ROUTE'
+
+/**
+ * 更新uid
+ * @type {string}
+ */
+export const SET_UID = 'SET_UID'
+
+/**
+ * 更新推荐歌单
+ * @type {string}
+ */
+export const SET_PERSONALIZED = 'SET_PERSONALIZED'

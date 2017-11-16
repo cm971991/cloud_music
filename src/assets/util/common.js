@@ -203,9 +203,6 @@ export default {
       s += '}'
       return s
     }
-  },
-  stringFormat (str, args) {
-    return str.format(args)
   }
 }
 
@@ -220,7 +217,7 @@ Array.prototype.remove = function (s) {
   }
 }
 
-String.prototype.format = function (args) {
+String.prototype.stringFormat = function (args) {
   let result = this
   if (arguments.length > 0) {
     if (arguments.length === 1 && typeof (args) === 'object') {

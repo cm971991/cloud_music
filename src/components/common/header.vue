@@ -2,24 +2,18 @@
     <div class="header">
         <div class="header-wrapper">
             <div class="setting">
-                <i class="icon-caidan" v-html="iconList.setting"></i>
+                <i class="icon-caidan" v-html="iconSetting"></i>
             </div>
             <div class="menu">
-                <span class="menu-item">
-                    <i class="icon-yinyue" :class="{ hover : clickData.songListClick }" v-html="iconList.songList"
-                       @click="menuSelect('songList')"></i>
-                </span>
-                <span class="menu-item">
-                    <i class="icon-cloudmusic" :class="{ hover : clickData.recommendClick }" v-html="iconList.recommend"
-                       @click="menuSelect('recommend')"></i>
-                </span>
-                <span class="menu-item">
-                    <i class="icon-ren" :class="{ hover : clickData.momentsClick }" v-html="iconList.moments"
-                       @click="menuSelect('moments')"></i>
-                </span>
+                <template v-for="item in iconList">
+                    <span class="menu-item">
+                        <i :class="[ item.className, { hover : item.clicked } ]" v-html="item.iconCode"
+                           @click="menuSelect(item.type)"></i>
+                    </span>
+                </template>
             </div>
             <div class="search">
-                <i class="icon-chaxun" v-html="iconList.search"></i></div>
+                <i class="icon-chaxun" v-html="iconSearch"></i></div>
         </div>
     </div>
 </template>
@@ -28,13 +22,13 @@
   export default {
     data () {
       return {
-        iconList: {
-          setting: '&#xe6b9;',
-          songList: '&#xe680;',
-          recommend: '&#xe601;',
-          moments: '&#xe614;',
-          search: '&#xe603;'
-        },
+        iconSetting: '&#xe6b9;',
+        iconSearch: '&#xe603;',
+        iconList: [
+          {iconCode: '&#xe680;', className: 'icon-yinyue', type: 'songList', clicked: false},
+          {iconCode: '&#xe601;', className: 'icon-cloudmusic', type: 'recommend', clicked: true},
+          {iconCode: '&#xe614;', className: 'icon-ren', type: 'moments', clicked: false}
+        ],
         clickData: {
           songListClick: false,
           recommendClick: true,
@@ -51,21 +45,21 @@
       menuSelect (type) {
         switch (type) {
           case 'songList':
-            this.clickData.songListClick = true
-            this.clickData.recommendClick = false
-            this.clickData.momentsClick = false
+            this.iconList[0].clicked = true
+            this.iconList[1].clicked = false
+            this.iconList[2].clicked = false
             this.$router.push('/songList')
             break
           case 'recommend':
-            this.clickData.recommendClick = true
-            this.clickData.songListClick = false
-            this.clickData.momentsClick = false
+            this.iconList[0].clicked = false
+            this.iconList[1].clicked = true
+            this.iconList[2].clicked = false
             this.$router.push('/recommend')
             break
           case 'moments':
-            this.clickData.momentsClick = true
-            this.clickData.songListClick = false
-            this.clickData.recommendClick = false
+            this.iconList[0].clicked = false
+            this.iconList[1].clicked = false
+            this.iconList[2].clicked = true
             this.$router.push('/moments')
             break
         }

@@ -166,6 +166,13 @@
         this._onTransitionStart()
       },
       _onTouchStart (e) {
+        let ev = e || window.event
+        let target = ev.target || ev.srcElement
+        let nodeName = target.nodeName.toLowerCase()
+        // 防止滑动的是slide 导致tab滑动无效
+        if (nodeName === 'img') {
+          return
+        }
         this.startPos = this._getTouchPos(e)
         this.startYPos = this._getTouchYPos(e)
         this.delta = 0
@@ -234,8 +241,7 @@
           // FIX:remove the height of the hidden tab-items
           [].forEach.call(this.slideEls, (item, index) => {
             if (index === (this.currentPage - 1)) {
-              let flag = removeClass(item, 'hide-height')
-              console.log('flag:', flag)
+              removeClass(item, 'hide-height')
             } else {
               addClass(item, 'hide-height')
             }
@@ -308,7 +314,6 @@
     .tab-title-container {
         position: relative;
         -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-        /*display: table;*/
         margin: 0 auto;
         list-style: none;
         -webkit-appearance: none;
@@ -317,7 +322,6 @@
         text-decoration: none;
         -webkit-user-select: none;
         outline: none;
-        border-bottom: 1px solid #dddddd;
         display: flex;
         flex-wrap: nowrap;
         align-items: center;
@@ -328,6 +332,7 @@
     }
 
     .tab-title {
+        border-bottom: 2px solid #3A373C;
         -webkit-appearance: none;
         height: 35px;
         line-height: 35px;

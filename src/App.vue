@@ -10,6 +10,7 @@
 <script>
   import { mapState } from 'vuex'
   import headerTitle from './components/common/header.vue'
+  import Business from './business/login_biz'
 
   export default {
     components: {
@@ -27,6 +28,10 @@
       transitionName () {
         return 'vux-pop-' + (this.direction === 'forward' ? 'in' : 'out')
       }
+    },
+    created () {
+      this.business = new Business(this)
+      this.business.loginByTelephone()
     },
     methods: {}
   }
