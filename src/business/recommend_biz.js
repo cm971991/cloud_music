@@ -10,7 +10,6 @@ export default class extends Base {
     if (vm.$store.getters.uid) {
       api.personalized(
         (res) => {
-          debugger
           if (res.code !== 200) {
             vm.$toast.show({text: res.msg})
           } else {

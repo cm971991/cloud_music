@@ -155,8 +155,9 @@
     },
     created () {
       this.Business = new Business(this)
-      let sss = this.Business.personalized()
-      console.log('sss:', sss)
+      this.Business.personalized().then((res) => {
+        console.log('res:', res)
+      })
     },
     mounted () {
     },
