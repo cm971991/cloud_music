@@ -21,3 +21,15 @@ export const SET_UID = 'SET_UID'
  * @type {string}
  */
 export const SET_PERSONALIZED = 'SET_PERSONALIZED'
+
+/**
+ * 更新推荐新音乐
+ * @type {string}
+ */
+export const SET_NEWSONG = 'SET_NEWSONG'
+
+/**
+ * 更新推荐
+ * @type {string}
+ */
+export const SET_MV = 'SET_MV'

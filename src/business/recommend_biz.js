@@ -6,21 +6,49 @@ export default class extends Base {
    * 获取推荐歌单
    */
   personalized () {
-    let vm = this.vm
-    if (vm.$store.getters.uid) {
+    return new Promise((resolve, reject) => {
       api.personalized(
         (res) => {
-          if (res.code !== 200) {
-            vm.$toast.show({text: res.msg})
-          } else {
-            debugger
-            vm.$store.commit('SET_PERSONALIZED', res.result)
-            return Promise.resolve(res.result)
-          }
+          res.result.forEach((item, index) => {
+            if (item.playCount >= 10000) {
+              item.playCount = parseInt(item.playCount / 10000) + '万'
+            }
+          })
+          resolve(res)
         },
         (ex) => {
           console.log('personalized ex:', ex)
         })
-    }
+    })
+  }
+  /**
+   * 推荐新音乐
+   * @returns {Promise}
+   */
+  newSong () {
+    return new Promise((resolve, reject) => {
+      api.newSong(
+        (res) => {
+          resolve(res)
+        },
+        (ex) => {
+          console.log('newSong ex:', ex)
+        })
+    })
+  }
+  /**
+   * 推荐mv
+   * @returns {Promise}
+   */
+  mv () {
+    return new Promise((resolve, reject) => {
+      api.mv(
+        (res) => {
+          resolve(res)
+        },
+        (ex) => {
+          console.log('newSong ex:', ex)
+        })
+    })
   }
 }

@@ -10,6 +10,14 @@ export default {
       // 推荐歌单
       'personalized': () => {
         return url + '/personalized'
+      },
+      // 推荐新音乐
+      'newSong': () => {
+        return url + '/personalized/newsong'
+      },
+      // 推荐mv
+      'mv': () => {
+        return url + '/personalized/mv'
       }
     }
     return actions[action]()

@@ -2,19 +2,19 @@
     <div class="card-container">
         <div class="title-row">
             <div class="sign"></div>
-            <div class="title">推荐歌单</div>
+            <div class="title">{{ title }}</div>
             <i class="icon-arrow-right" v-html="arrowIcon"></i>
         </div>
         <div class="card-row">
             <template v-for="item in cards">
-                <div class="card-item">
-                    <div class="card-img" :style="{ backgroundImage:'url('+ item.image +')' }">
+                <div class="card-item" :style="{ width: lines === 2 ? '49%' : '33%' }">
+                    <div class="card-img" v-lazy:background-image="item.picUrl" lazy="loaded">
                         <div class="card-img-title">
-                            <i class="icon-headset" v-html="headsetIcon"></i>
-                            <span>{{ item.count }}万</span>
+                            <i class="icon-headset" v-html="iconHtml"></i>
+                            <span>{{ item.playCount }}</span>
                         </div>
                     </div>
-                    <div class="card-content">{{ item.content }}</div>
+                    <div class="card-content">{{ item.name }}</div>
                 </div>
             </template>
         </div>
@@ -31,19 +31,36 @@
       title: {
         type: String,
         default: ''
+      },
+      lines: {
+        type: Number,
+        default: 3
+      },
+      icon: {
+        type: Number,
+        default: 1
       }
     },
     data () {
       return {
         arrowIcon: '&#xe600;',
-        headsetIcon: '&#xe76b;'
+        headsetIcon: '&#xe76b;',
+        videoIcon: '&#xe615;'
       }
     },
     created () {
     },
     mounted () {
     },
-    computed: {},
+    computed: {
+      iconHtml () {
+        if (this.icon === 1) {
+          return this.headsetIcon
+        } else {
+          return this.videoIcon
+        }
+      }
+    },
     methods: {}
   }
 </script>
@@ -78,20 +95,17 @@
             align-items: center;
             align-content: space-around;
             .card-item {
-                width: 33%;
-                height: 120px;
                 margin-bottom: 16px;
                 text-align: left;
                 .card-img {
-                    height: 100px;
-                    margin-bottom: 6px;
+                    height: 120px;
+                    margin-bottom: 10px;
                     background-size: 100% 100%;
                     background-repeat: no-repeat;
                     .card-img-title {
                         padding-right: 4px;
                         text-align: right;
                         .icon-headset {
-
                         }
                         span {
                             color: #fff;
@@ -100,12 +114,26 @@
                         }
                     }
                 }
+                .card-img[lazy=loaded] {
+                    animation: fade 0.5s;
+                }
+                @keyframes fade {
+                    0% {
+                        opacity: 0;
+                    }
+                    100% {
+                        opacity: 1;
+                    }
+                }
                 .card-content {
                     padding-left: 4px;
                     color: #fff;
-                    font-size: 12px;
+                    line-height: 14px;
+                    font-size: 11px;
                     font-weight: 300;
-                    letter-spacing: 0.5px;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    overflow: hidden;
                 }
             }
         }

@@ -332,7 +332,7 @@
     }
 
     .tab-title {
-        border-bottom: 2px solid #3A373C;
+        border-bottom: 2px solid #232323;
         -webkit-appearance: none;
         height: 35px;
         line-height: 35px;

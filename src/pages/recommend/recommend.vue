@@ -10,7 +10,7 @@
                         <slide ref="slide">
                             <div v-for="item in imageItems">
                                 <a :href="item.linkUrl">
-                                    <img :src="item.picUrl">
+                                    <img :src="item.picUrl" lazy="loaded">
                                 </a>
                             </div>
                         </slide>
@@ -37,9 +37,11 @@
                         <!-- endregion 独家放送 -->
 
                         <!-- region 最新音乐 -->
+                        <!--<card-list :cards="newSongItems" :title="newSongTitle"></card-list>-->
                         <!-- endregion 最新音乐 -->
 
                         <!-- region 推荐MV -->
+                        <card-list :cards="mvItems" :title="mvTitle" :lines="mvLines" :icon="2"></card-list>
                         <!-- endregion 推荐MV -->
 
                         <!-- region 精选专栏 -->
@@ -119,57 +121,89 @@
           {iconCode: '&#xe652;', className: 'icon-menu', title: '歌单'},
           {iconCode: '&#xe602;', className: 'icon-paihang', title: '排行榜'}],
         cardTitle: '推荐新歌',
-        cardItems: [
-          {
-            count: 162,
-            content: '华语速爆新歌',
-            image: 'http://y.gtimg.cn/music/photo_new/T003R720x288M000004ckGfg3zaho0.jpg'
-          },
-          {
-            count: 162,
-            content: '华语速爆新歌',
-            image: 'http://y.gtimg.cn/music/photo_new/T003R720x288M000004ckGfg3zaho0.jpg'
-          },
-          {
-            count: 162,
-            content: '华语速爆新歌',
-            image: 'http://y.gtimg.cn/music/photo_new/T003R720x288M000004ckGfg3zaho0.jpg'
-          },
-          {
-            count: 162,
-            content: '华语速爆新歌',
-            image: 'http://y.gtimg.cn/music/photo_new/T003R720x288M000004ckGfg3zaho0.jpg'
-          },
-          {
-            count: 162,
-            content: '华语速爆新歌',
-            image: 'http://y.gtimg.cn/music/photo_new/T003R720x288M000004ckGfg3zaho0.jpg'
-          },
-          {
-            count: 162,
-            content: '华语速爆新歌',
-            image: 'http://y.gtimg.cn/music/photo_new/T003R720x288M000004ckGfg3zaho0.jpg'
-          }
-        ]
+        cardItems: [],
+        newSongTitle: '最新音乐',
+        newSongItems: [],
+        mvTitle: '推荐MV',
+        mvItems: [],
+        mvLines: 2
       }
     },
     created () {
       this.Business = new Business(this)
-      this.Business.personalized().then((res) => {
-        console.log('res:', res)
-      })
+      this.getPersonalized()
+      this.getNewSong()
+      this.getMv()
     },
     mounted () {
     },
     computed: {},
-    methods: {}
+    methods: {
+      /**
+       * 获取推荐歌单
+       */
+      getPersonalized () {
+        if (this.$store.getters.personalized && this.$store.getters.personalized.length > 0) {
+          this.cardItems = this.$store.getters.personalized
+        } else {
+          this.Business.personalized()
+            .then((res) => {
+              console.log('getPersonalized:', res)
+              if (res.code !== 200) {
+                this.$toast.show({text: res.msg})
+              } else {
+                this.cardItems = res.result
+                this.$store.commit('SET_PERSONALIZED', res.result)
+              }
+            })
+        }
+      },
+      /**
+       * 获取推荐新音乐
+       */
+      getNewSong () {
+        if (this.$store.getters.newSong && this.$store.getters.newSong.length > 0) {
+          this.newSongItems = this.$store.getters.newSong
+        } else {
+          this.Business.newSong()
+            .then((res) => {
+              console.log('getNewSong:', res)
+              if (res.code !== 200) {
+                this.$toast.show({text: res.msg})
+              } else {
+                this.newSongItems = res.result
+                this.$store.commit('SET_NEWSONG', res.result)
+              }
+            })
+        }
+      },
+      /**
+       * 获取推荐mv
+       */
+      getMv () {
+        if (this.$store.getters.mv && this.$store.getters.mv.length > 0) {
+          this.mvItems = this.$store.getters.mv
+        } else {
+          this.Business.mv()
+            .then((res) => {
+              console.log('getMv:', res)
+              if (res.code !== 200) {
+                this.$toast.show({text: res.msg})
+              } else {
+                this.mvItems = res.result
+                this.$store.commit('SET_MV', res.result)
+              }
+            })
+        }
+      }
+    }
   }
 </script>
 
 <style lang="less">
     .recommend-contain {
         height: calc(~"100% - 52px");
-        background-color: #3A373C;
+        background-color: #232323;
         position: absolute;
         top: 52px;
         left: 0;
@@ -179,7 +213,7 @@
             .tab-title-container {
                 font-size: 13px;
                 font-weight: 300;
-                background-color: #3A373C;
+                background-color: #232323;
                 color: #fff;
             }
             .tabswiper {
@@ -202,7 +236,7 @@
                     justify-content: space-around;
                     align-items: center;
                     align-content: center;
-                    border-bottom: 1px solid #424242;
+                    border-bottom: 1px solid #292929;
                     .menu-item {
                         width: 56px;
                         .menu-item-icon {

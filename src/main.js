@@ -13,7 +13,7 @@ import Toast from './assets/plug/toast/index'
 FastClick.attach(document.body)
 Vue.config.productionTip = false
 Vue.use(VueLazyLoad, {
-  loading: require('./assets/image/loading.gif')
+  loading: require('./assets/image/loading.png')
 })
 Vue.use(Util)
 Vue.use(Toast)

@@ -74,7 +74,7 @@
         left: 0;
         right: 0;
         top: 0;
-        background-color: #3A373C;
+        background-color: #232323;
         z-index: 1;
         .header-wrapper {
             display: flex;
