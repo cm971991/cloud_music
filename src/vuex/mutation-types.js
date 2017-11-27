@@ -33,3 +33,9 @@ export const SET_NEWSONG = 'SET_NEWSONG'
  * @type {string}
  */
 export const SET_MV = 'SET_MV'
+
+/**
+ * 更新每日推荐歌曲
+ * @type {string}
+ */
+export const SET_DAILYSONG = 'SET_DAILYSONG'

@@ -42,7 +42,7 @@
     let regExp = new RegExp(target, 'g')
     return str.replace(regExp, replace)
   }
-
+  
   /**
    *
    * @author bajian
@@ -62,7 +62,7 @@
       return true
     }
   }
-
+  
   /**
    *
    * @author bajian
@@ -83,7 +83,7 @@
     el.className = cls.trim()
     return true
   }
-
+  
   export default {
     props: {
       tabTitles: {
@@ -179,6 +179,9 @@
         this.startTranslateX = this.translateX
         this.startTime = new Date().getTime()
         this.dragging = true
+        if (this.currentPage === 1) {
+          console.log('11111:')
+        }
         document.addEventListener('touchmove', this._onTouchMove, false)
         document.addEventListener('touchend', this._onTouchEnd, false)
       },
@@ -202,6 +205,10 @@
             e.preventDefault()
             e.stopPropagation()
             this.translateX = this.startTranslateX + this.delta
+            // 首页不能向右滑动 尾页不能向左滑动
+            if ((this.currentPage === 1 && this.translateX > 0) || (this.currentPage === 3 && this.translateX < 0)) {
+              this._revert()
+            }
             break
           default:
             break

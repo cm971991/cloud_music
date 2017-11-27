@@ -3,7 +3,8 @@ import * as types from '../mutation-types'
 const state = {
   personalized: [],
   newSong: [],
-  mv: []
+  mv: [],
+  dailySong: []
 }
 
 const getters = {
@@ -15,6 +16,9 @@ const getters = {
   },
   mv: state => {
     return state.mv
+  },
+  dailySong: state => {
+    return state.dailySong
   }
 }
 
@@ -27,6 +31,9 @@ const mutations = {
   },
   [types.SET_MV] (state, mv) {
     state.mv = mv
+  },
+  [types.SET_DAILYSONG] (state, songs) {
+    state.dailySong = songs
   }
 }
 

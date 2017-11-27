@@ -7,12 +7,12 @@
 
 <script>
   import BScroll from 'better-scroll'
-
+  
   export default {
     props: {
       probeType: { // 派发滚动事件方式
         type: Number,
-        default: 1
+        default: 2
       },
       click: { // 是否支持点击
         type: Boolean,
@@ -64,8 +64,12 @@
           eventPassthrough: this.eventPassthrough
         })
         // 是否需要监听滚动事件
+        console.log('this.listenScroll:', this.listenScroll)
         if (this.listenScroll) {
           this.scroll.on('scroll', (pos) => {
+            if (pos && pos.y > 0) {
+              this.scrollTo(0, 0)
+            }
             this.$emit('scroll', pos)
           })
         }
@@ -83,6 +87,9 @@
             this.$emit('beforeScroll')
           })
         }
+      },
+      stop () {
+        this.scroll && this.scroll.stop()
       },
       enable () {
         this.scroll && this.scroll.enable()

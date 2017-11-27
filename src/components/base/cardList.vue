@@ -9,7 +9,7 @@
             <template v-for="item in cards">
                 <div class="card-item" :style="{ width: lines === 2 ? '49%' : '33%' }">
                     <div class="card-img" v-lazy:background-image="item.picUrl" lazy="loaded">
-                        <div class="card-img-title">
+                        <div class="card-img-title" v-if="icon">
                             <i class="icon-headset" v-html="iconHtml"></i>
                             <span>{{ item.playCount }}</span>
                         </div>
@@ -38,7 +38,7 @@
       },
       icon: {
         type: Number,
-        default: 1
+        default: 0
       }
     },
     data () {
@@ -56,8 +56,10 @@
       iconHtml () {
         if (this.icon === 1) {
           return this.headsetIcon
-        } else {
+        } else if (this.icon === 2) {
           return this.videoIcon
+        } else {
+          return ''
         }
       }
     },

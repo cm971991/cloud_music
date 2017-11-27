@@ -43,5 +43,19 @@ export default {
       .catch((ex) => {
         errorFunc(ex)
       })
+  },
+  /**
+   * 推荐mv
+   * @param successFunc
+   * @param errorFunc
+   */
+  dailySong (successFunc, errorFunc) {
+    Vue.$api.xHttp.get(url.getUrl('dailySong'))
+      .then(res => {
+        successFunc(res)
+      })
+      .catch((ex) => {
+        errorFunc(ex)
+      })
   }
 }

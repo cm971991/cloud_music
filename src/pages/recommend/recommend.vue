@@ -4,7 +4,7 @@
              :current-page="3">
             <!-- region 音乐 -->
             <div class="tab-content-container">
-                <scroll class="list-scroll">
+                <scroll class="list-scroll" :listenScroll="true">
                     <div>
                         <!-- region slide 图片滑动 -->
                         <slide ref="slide">
@@ -19,7 +19,7 @@
                         <!-- region 菜单模块 -->
                         <div class="menu-row">
                             <template v-for="item in menuIcons">
-                                <div class="menu-item">
+                                <div class="menu-item" @click="menuClick(item.className)">
                                     <div class="menu-item-icon">
                                         <i :class="item.className" v-html="item.iconCode"></i>
                                     </div>
@@ -30,14 +30,14 @@
                         <!-- endregion 菜单模块 -->
 
                         <!-- region 推荐歌单 -->
-                        <card-list :cards="cardItems" :title="cardTitle"></card-list>
+                        <card-list :cards="cardItems" :title="cardTitle" :icon="1"></card-list>
                         <!-- endregion 推荐歌单 -->
 
                         <!-- region 独家放送 -->
                         <!-- endregion 独家放送 -->
 
                         <!-- region 最新音乐 -->
-                        <!--<card-list :cards="newSongItems" :title="newSongTitle"></card-list>-->
+                        <card-list :cards="newSongItems" :title="newSongTitle"></card-list>
                         <!-- endregion 最新音乐 -->
 
                         <!-- region 推荐MV -->
@@ -56,7 +56,7 @@
 
             <!-- region 视频 -->
             <div class="tab-content-container">
-                <scroll class="list-scroll">
+                <scroll class="list-scroll" :listenScroll="true">
                     <div>
                         <template v-for="i in 20">
                             <h1 style="margin-bottom: 50px;">tab {{ i }}</h1>
@@ -68,7 +68,7 @@
 
             <!-- region 电台 -->
             <div class="tab-content-container">
-                <scroll class="list-scroll">
+                <scroll class="list-scroll" :listenScroll="true">
                     <div>
                         <template v-for="i in 20">
                             <h1 style="margin-bottom: 50px;">tab {{ i }}</h1>
@@ -118,7 +118,7 @@
         menuIcons: [
           {iconCode: '&#xe76a;', className: 'icon-fm', title: '私人FM'},
           {iconCode: '&#xe612;', className: 'icon-menu', title: '每日推荐'},
-          {iconCode: '&#xe652;', className: 'icon-menu', title: '歌单'},
+          {iconCode: '&#xe652;', className: 'icon-music', title: '歌单'},
           {iconCode: '&#xe602;', className: 'icon-paihang', title: '排行榜'}],
         cardTitle: '推荐新歌',
         cardItems: [],
@@ -130,10 +130,12 @@
       }
     },
     created () {
-      this.Business = new Business(this)
-      this.getPersonalized()
-      this.getNewSong()
-      this.getMv()
+      this.$nextTick(() => {
+        this.Business = new Business(this)
+        this.getPersonalized()
+        this.getNewSong()
+        this.getMv()
+      })
     },
     mounted () {
     },
@@ -153,7 +155,7 @@
                 this.$toast.show({text: res.msg})
               } else {
                 this.cardItems = res.result
-                this.$store.commit('SET_PERSONALIZED', res.result)
+                this.$store.commit('SET_PERSONALIZED', this.cardItems)
               }
             })
         }
@@ -171,8 +173,8 @@
               if (res.code !== 200) {
                 this.$toast.show({text: res.msg})
               } else {
-                this.newSongItems = res.result
-                this.$store.commit('SET_NEWSONG', res.result)
+                this.newSongItems = res.result.slice(0, 6)
+                this.$store.commit('SET_NEWSONG', this.newSongItems)
               }
             })
         }
@@ -191,9 +193,27 @@
                 this.$toast.show({text: res.msg})
               } else {
                 this.mvItems = res.result
-                this.$store.commit('SET_MV', res.result)
+                this.$store.commit('SET_MV', this.mvItems)
               }
             })
+        }
+      },
+      /**
+       * 菜单点击事件
+       * @param className
+       */
+      menuClick (className) {
+        console.log('className:', className)
+        switch (className) {
+          case 'icon-fm':
+            break
+          case 'icon-menu':
+            this.$router.push({path: '/dailySong'})
+            break
+          case 'icon-music':
+            break
+          case 'icon-paihang':
+            break
         }
       }
     }
