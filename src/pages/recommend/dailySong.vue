@@ -1,14 +1,21 @@
 <template>
     <div class="dailySong-contain">
-        <h1>每日推荐歌单</h1>
+        <div class="banner"></div>
+        <scroll class="list-scroll" :listenScroll="true">
+            <div>
+                <playlist :data="dailySongItems"></playlist>
+            </div>
+        </scroll>
     </div>
 </template>
 
 <script>
   import Business from '../../business/recommend_biz'
+  import scroll from '../../components/common/scroll.vue'
+  import playlist from '../../components/common/playList.vue'
 
   export default {
-    components: {},
+    components: {scroll, playlist},
     data () {
       return {
         dailySongItems: []
@@ -27,7 +34,7 @@
        */
       dailySong () {
         if (this.$store.getters.dailySong && this.$store.getters.dailySong.length > 0) {
-          this.mvItems = this.$store.getters.dailySong
+          this.dailySongItems = this.$store.getters.dailySong
         } else {
           this.Business.dailySong()
             .then((res) => {
@@ -48,7 +55,22 @@
 
 <style lang="less">
     .dailySong-contain {
-        margin-top: 52px;
-        background-color: #fff;
+        height: calc(~"100% - 52px");
+        background-color: #232323;
+        position: absolute;
+        top: 52px;
+        left: 0;
+        right: 0;
+        .banner {
+            width: 100%;
+            height: 105px;
+            background: url("../../assets/image/recommend/recmd_daily.jpg") no-repeat;
+            background-size: 100% 100%;
+        }
+        .list-scroll {
+            position: relative;
+            height: 100%;
+            overflow: hidden;
+        }
     }
 </style>

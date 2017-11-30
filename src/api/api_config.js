@@ -22,6 +22,9 @@ export default {
       // 每日推荐歌曲
       'dailySong': () => {
         return url + '/recommend/songs'
+      },
+      'musicUrl': () => {
+        return url + '/music/url?id={0}'
       }
     }
     return actions[action]()
